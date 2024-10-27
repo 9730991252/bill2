@@ -67,6 +67,7 @@ def total_cash_amount():
 @register.inclusion_tag('inclusion_tag/office/total_phonepe_amount.html')
 def total_phonepe_amount():
     phone = Phonepe.objects.all()
+    total_phonepe = 0
     if phone:
         pa = phone.aggregate(Sum('amount'))
         total_phonepe = pa['amount__sum']
@@ -79,6 +80,7 @@ def total_phonepe_amount():
 @register.inclusion_tag('inclusion_tag/office/total_bank_amount.html')
 def total_bank_amount():
     bank = Bank_account.objects.all()
+    total_bank = 0
     if bank:
         pa = bank.aggregate(Sum('amount'))
         total_bank = pa['amount__sum']
