@@ -1,0 +1,224 @@
+{% extends 'home/base.html' %}
+{% block head %}
+{% endblock head %}
+{% block content %}
+<style>
+.medium_selection_boxes{
+    display: flex;
+    justify-content: space-evenly;
+    div{
+        background-color: rgb(244, 230, 255);
+        padding: 10px;
+        border-radius: 10px;
+    }
+}
+
+.available_box{
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr ;
+
+}
+.available_cash{
+    border: 1px solid black;
+    width: 150px;
+    text-align: center;
+    margin: 0 auto;
+    border-radius: 10px;
+    
+
+
+}
+.available_phonepe{
+    margin-top: 10px;
+    border: 1px solid black;
+    width: 150px;
+    text-align: center;
+    margin: 0 auto;
+    border-radius: 10px; 
+}    
+.available_bank{
+    margin-top: 10px;
+    border: 1px solid black;
+    width: 150px;
+    text-align: center;
+    margin: 0 auto;
+    border-radius: 10px; 
+}    
+
+
+
+@media screen and (max-width: 480px) {
+    .available_box{
+    display: grid;
+    grid-template-columns: 1fr ;
+
+}
+}
+</style>
+
+
+<div> <small>{{user.user_type.name}} = Welcome - {{user.name}}</small></div>
+<br>
+
+{% include 'include/user/user_menu.html' %}
+
+
+<div class="container">
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Add Out Bill
+  </button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Out Details</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form method="POST">{% csrf_token %}
+                <div class="medium_selection_boxes">
+                    <div onclick="out_user_cash('{{user.id}}')">Cash</div>
+                    <div onclick="out_user_phonepe('{{user.id}}')">PhonePe</div>
+                    <div onclick="out_bank('{{user.id}}')">Bank Account</div>
+                </div>
+
+                <div class="text-center" ><h6 id="oppend"></h6></div>
+                <div id="result">
+                </div>
+
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal -->
+
+
+</div>
+
+
+
+<div class="available_box">
+<div class="available_cash">
+    <div class="cash">Cash Rs. <strong >{{cash.amount | floatformat:2 }}</strong></div>
+</div>
+
+<div class="available_phonepe mt-2">
+    {% for p in phonepe %}
+    <div class="cash">phonepe {{p.user.name}} - {{p.mobile}} Rs. <strong>{{p.amount | floatformat:2 }}</strong></div>
+    {% endfor %}
+</div>
+<div class="available_bank mt-2">
+    {% for b in bank %}
+    <div class="cash">{{b.user.name}} - {{b.bank_name}} Rs.<strong> {{b.amount | floatformat:2 }}</strong></div>
+    {% endfor %}
+</div>
+
+</div>
+
+
+
+<div class="container mt-2">
+    <table class="table table-striped  table-bordered table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Bill Name</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Date</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for c in cash_amount %}
+                <tr>
+                    <td>{{c.out_bill_name}}</td>
+                    <td>Rs.{{c.amount}} - Cash</td>
+                    <td>{{c.added_date}}</td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td><hr></td>
+                    <td><hr></td>
+                    <td><hr></td>
+                </tr>
+                {% for c in phonepe_transition %}
+                <tr>
+                    <td>{{c.out_bill_name}} </td>
+                    <td>Rs.{{c.amount}} - {{c.phonepe.user.name}} - {{c.phonepe.mobile}}</td>
+                    <td>{{c.added_date}}</td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td><hr></td>
+                    <td><hr></td>
+                    <td><hr></td>
+                </tr>
+                {% for c in bank_transition %}
+                <tr>
+                    <td>{{c.out_bill_name}} </td>
+                    <td>Rs.{{c.amount}} - {{c.bank.user.name}} - {{c.bank.bank_name}} - {{c.bank.number}}</td>
+                    <td>{{c.added_date}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+</div>
+
+
+
+<script>
+function out_user_cash(user_id){
+    
+    $.ajax({
+        type:'GET',
+        url:'{% url "out_user_cash" %}',
+        data:{
+            user_id:user_id,
+        },
+        success: function(data){
+            $("#result").html('')
+            $("#result").html(data.t)
+            $("#oppend").html('')
+            $("#oppend").html('Cash')
+        }
+    })
+}
+function out_user_phonepe(user_id){
+    $.ajax({
+        type:'GET',
+        url:'{% url "out_user_phonepe" %}',
+        data:{
+            user_id:user_id,
+        },
+        success: function(data){
+            $("#result").html('')
+            $("#result").html(data.t)
+            $("#oppend").html('')
+            $("#oppend").html('Phonepe')
+        }
+    })
+}
+function out_bank(user_id){
+    $.ajax({
+        type:'GET',
+        url:'{% url "out_bank" %}',
+        data:{
+            user_id:user_id,
+        },
+        success: function(data){
+            $("#result").html('')
+            $("#result").html(data.t)
+            $("#oppend").html('')
+            $("#oppend").html('Bank')
+        }
+    })
+}
+</script>
+{% endblock content %}

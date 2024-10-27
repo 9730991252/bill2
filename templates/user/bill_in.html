@@ -1,0 +1,139 @@
+{% extends 'home/base.html' %}
+{% block head %}
+{% endblock head %}
+{% block content %}
+<div> <small> {{user.user_type.name}} = Welcome - {{user.name}}</small></div>
+<br>
+
+{% include 'include/user/user_menu.html' %}
+
+<style>
+    .bill_box{
+        border: 1px solid black;
+        width: 95%;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        margin-top: 10px;
+        padding: 10px;
+    }
+    .amount_box{
+        display: flex;
+        justify-content: space-between;
+    }
+    
+    a{
+        color: black;
+        text-decoration: none;
+    }
+    </style>
+    <div class="bill_box">
+        <div class="bill_number">Bill Number <b> {{bill.bill_number}}</b></div>
+        <div class="amount_box">
+            <div class="amount">Amount - <b>{{bill.amount}}</b></div>
+            <div class="pending">Pending - <b>{{bill.pending_amount}}</b></div>
+        </div>
+        <div class="date mt-2">{{bill.added_date}}</div>
+        <div>
+            {% if bill.pending_amount != 0 %}
+                <button popovertarget="my-popover-cash" class="btn btn-success">Cash</button>
+                <button popovertarget="my-popover-phonpe" class="btn btn-primary">Phonpe</button>
+                <button popovertarget="my-popover-Bank_account" class="btn btn-primary">Bank_account</button>
+            {% else %}
+                {% if bill.pending_amount_status != 0 %}
+                <form method="POST" >{% csrf_token %}
+                    <button type="submit" class="btn btn-success" name="Complete_bill">Compleat</button>
+                </form>
+                {% endif %}
+            {% endif %}
+        </div>
+        <br>
+        {% include 'include/alert.html' %}
+        <div>
+            <div popover id="my-popover-cash" style="margin: auto;border: 1px solid black;padding: 10px;">
+                <form method="POST">{% csrf_token %} 
+                    <input type="text" oninput="check_amount()" name="amount" placeholder="Cash amount" class="form-control" id="input_amount">
+                    <button type="submit" name="Cash_add" class="btn btn-primary mt-2">Cash In</button>
+                </form>
+            </div>
+        </div>
+        <div>
+            <div popover id="my-popover-phonpe" style="margin: auto;border: 1px solid black;padding: 10px;">
+                <form method="POST">{% csrf_token %}
+                <div class="mb-3">
+                    <select class="form-select" aria-label="Default select example" name="user" required>
+                        <option value="">phonepe number</option>
+                        {% for p in phonepe %}
+                            <option value="{{p.id}}">{{p.user.name}} - {{p.mobile}}</option>
+                        {% endfor %}
+                      </select>
+                </div>                
+                <div class="mb-3">
+                    <input type="text" placeholder="Phonpe amount" name="amount" class="form-control" >
+                </div>
+                <button type="submit" name="phonepe_add" class="btn btn-primary mt-2">Cash In</button>
+                </form>
+            </div>
+            <div popover id="my-popover-Bank_account" style="margin: auto;border: 1px solid black;padding: 10px;">
+                <form method="POST">{% csrf_token %}
+                <div class="mb-3">
+                    <select class="form-select" aria-label="Default select example" name="user" required>
+                        <option value="">Bank account</option>
+                        {% for p in bank_account %}
+                            <option value="{{p.id}}">{{p.user.name}} - {{p.bank_name}} - {{p.number}}</option>
+                        {% endfor %}
+                      </select>
+                </div>                
+                <div class="mb-3">
+                    <input type="text" placeholder="Bank amount" name="amount" class="form-control" >
+                </div>
+                <button type="submit" name="Bank_add" class="btn btn-primary mt-2">Cash In</button>
+                </form>
+            </div>
+        </div>
+    </div> 
+
+
+
+
+    <div class="container mt-2">
+        <table class="table table-striped  table-bordered table-hover">
+            <thead>
+              <tr>
+                <th scope="col">Amount</th>
+                <th scope="col">Date</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for c in cash_amount %}
+                    <tr>
+                        <td>Rs.{{c.amount}} - Cash</td>
+                        <td>{{c.added_date}}</td>
+                    </tr>
+                {% endfor %}
+                {% for c in phonepe_transition %}
+                    <tr>
+                        <td>Rs.{{c.amount}} - {{c.phonepe.user.name}} - {{c.phonepe.mobile}}</td>
+                        <td>{{c.added_date}}</td>
+                    </tr>
+                {% endfor %}
+                {% for c in bank_transition %}
+                    <tr>
+                        <td>Rs.{{c.amount}} - {{c.bank.user.name}} - {{c.bank.bank_name}} - {{c.bank.number}}</td>
+                        <td>{{c.added_date}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+    </div>
+<script>
+    amount = '{{bill.pending_amount}}'
+    function check_amount(){
+        input_amount = document.getElementById('input_amount').value;
+        if ( parseInt(amount) <= parseInt(input_amount)){
+            document.getElementById('input_amount').value = '';
+        }
+    }
+</script>
+{% endblock content %}

@@ -1,0 +1,37 @@
+<input type="hidden" name="user_id" value="{{user_id}}" required>
+<div class="mb-3">
+    <label for="disabledTextInput" class="form-label">Bill Name </label>
+    <input type="text" id="bill_name" name="bill_name" class="form-control" placeholder="Enter Bill Name Hear" required>
+</div>
+    <div class="mb-3">
+        <select onclick="selected()"  class="form-select" id="user_phonepe" aria-label="Default select example" name="phonepe_id" required>
+            <option value=""  >phonepe number</option>
+            {% for p in phonepe %}
+                <option value="{{p.id}}" id="{{p.amount}}">{{p.user.name}} - {{p.mobile}} - Rs.{{p.amount}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <input type="number" oninput="check_enter_amount()" id="enter_amount" name="amount" class="form-control" placeholder="Enter Amount Hear" required>
+      </div>
+      <button type="submit" class="btn btn-danger" name="User_out_phonepe">Phonepe Out</button>
+
+
+
+<script>
+    function selected(){
+        var e = document.getElementById("user_phonepe");
+        amount1 = e.options[e.selectedIndex].id;
+        console.log(amount)
+    }
+
+    function check_enter_amount(){
+
+        amount=document.getElementById('enter_amount').value;
+
+        if(parseInt(amount1) <= parseInt(amount)){
+
+        document.getElementById('enter_amount').value = '';
+        }
+        }
+</script>

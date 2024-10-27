@@ -1,0 +1,39 @@
+<style>
+    .total_box{
+        width: 350px;
+        display: grid;
+        margin: 0   auto;
+        padding: 5px;
+        grid-template-columns: repeat(2, 1fr);
+
+        div{
+            border:1px solid black;
+            text-align: center;
+        }
+        .total {
+
+            font-weight: 500;
+            grid-column-start:1 ;
+            grid-column-end:3 ;
+
+        }
+        .heading{
+            text-align: center;
+            font-weight: 500;
+            grid-column-start:1 ;
+            grid-column-end:3 ;
+
+        }
+    }
+</style>
+<div class="total_box">
+<div class="heading">Available All Amount</div>
+
+    <div> Cash </div>
+    <div>{{total_cash}}</div>
+    <div>Phone Pe</div>
+    <div>{{phonepe_amount}}</div>
+    <div>Bank </div>
+    <div>{{bank_amount}}</div>
+    <div class="total">Total {{total}} </div>
+</div>

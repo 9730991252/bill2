@@ -1,0 +1,173 @@
+{% extends 'home/base.html' %}
+{% block head %}
+{% endblock head %}
+{% block content %}
+<div> <small> {{user.user_type.name}} = Welcome - {{user.name}}</small></div>
+<br>
+
+{% include 'include/user/user_menu.html' %}
+
+<br>
+<div class="container">
+
+
+  <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Add bill
+  </button>
+  <div class="m-3">
+    <input type="text" class="form-control" oninput="search_bill()" id="bill_input" placeholder="Search Bill Hear">
+  </div>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Add bill</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form method="POST">{% csrf_token %}
+              <div class="mb-3">
+                  <label for="bill_number">Bill Number</label>
+                  <input type="text" class="form-control" name="bill_number" id="bill_number" placeholder="Bill Number" required>
+              </div>
+            <div class="mb-3">
+                <label for="amount">Amount</label>
+                <input type="text" class="form-control" name="amount" id="amount" placeholder="Amount" required>
+            </div>
+            <button type="submit" class="btn btn-primary" name="Add_bill">Add</button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<div id="search_bill_result" >
+
+<!-- bill -->
+  <style>
+    .bill_box{
+      position: relative;
+        border: 1px solid black;
+        width: 95%;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        margin-top: 10px;
+        padding: 10px;
+    }
+    .amount_box{
+        display: flex;
+        justify-content: space-between;
+    }
+    .amount{
+        background-color: green;
+        color: white;
+        padding: 5px;
+        border-radius: 10px;
+      }
+      .pending{
+        background-color:  red;
+        color: white;
+        padding: 5px;
+        border-radius: 10px;
+      }
+      a{
+        color: black;
+        text-decoration: none;
+      }
+      .id{
+        position: absolute;
+        left: 0;
+        top: 0;
+        padding: 5px;
+        border-right: 1px solid black;
+        border-bottom: 1px solid black;
+        font-weight: 700;
+      }
+      </style>
+    {% for b in bill %}
+    <a href="/user/bill_in/{{b.id}}">
+    <div class="bill_box">
+      <div class="id">{{b.id}}</div>
+        <div class="bill_number">Bill Name <b> {{b.bill_number}}</b></div>
+        <div class="amount_box">
+            <div class="amount">Amount - <b>{{b.amount}}</b></div>
+            <div class="pending">Pending - <b>{{b.pending_amount}}</b></div>
+        </div>
+        <div class="date mt-2">{{b.added_date}}</div>
+    </div>
+    </a>
+    {% endfor %}
+
+    
+    <style>
+      .cumplated_bill_box{
+        margin-top: 20px;
+        width: 100%;
+        padding: 10px;
+      }
+      .complet_bill_box{
+        position: relative;
+        border: 1px solid black;
+        width: 95%;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        margin-top: 10px;
+        padding: 10px;
+      }
+      .id{
+        position: absolute;
+        left: 0;
+        top: 0;
+        padding: 5px;
+        border-right: 1px solid black;
+        border-bottom: 1px solid black;
+        font-weight: 700;
+      }
+      </style>
+    <div class="cumplated_bill_box">
+      <div class="container">
+        <div class="text-center"><b><h5>Completed Bill</h5></b></div>
+        <br>
+        {% for b in all_bill %}
+        <div class="complet_bill_box">
+          <div class="id">{{b.id}}</div>
+          <div class="bill_number">Bill Name <b> {{b.bill_number}}</b></div>
+          <div class="amount_box">
+            <div class="amount" style="background-color: white;color: black;">Amount - <b>{{b.amount}}</b></div>
+            <div class="pending" style="background-color: white;color: black;"><b>Completed</b></div>
+          </div>
+          <div class="date mt-2">{{b.added_date}}</div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    
+  </div>
+  
+  </div>
+  <script>
+    function search_bill(){
+      bill_input = document.getElementById('bill_input').value;
+      $.ajax({
+        type:'GET',
+        url:'{% url "search_bill" %}',
+        data:{
+          bill_input:bill_input,
+        },
+        success: function(data){
+          $("#search_bill_result").html(data.t)
+        }
+      })
+    }
+  </script>
+  {% endblock content %}
+  

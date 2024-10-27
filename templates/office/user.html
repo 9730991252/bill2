@@ -1,0 +1,127 @@
+{% extends 'home/base.html' %}
+{% block title %} Report{% endblock title %}
+{% block content %}
+<div class="container">
+    <div class=""><h>Welcome - {{e.name}}</h></div>
+    <div class="row">
+        <div class="col-2">
+            {% include 'include/office/office_menu.html' %}  
+        </div>
+        <div class="col-10">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_user">
+                    Add User
+                </button>
+                
+                <!-- Modal -->
+                <div class="modal fade" id="add_user" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="staticBackdropLabel">add USer</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="POST">{% csrf_token %}
+                                <div class="mb-3">
+                                    <select name="user_type" class="form-select" aria-label="Default select example">
+                                        <option value="">select Type</option>
+                                        {% for u in user_type %}
+                                            <option value="{{u.id}}">{{u.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="name">Name</label>
+                                    <input type="text" class="form-control"  id="name" name="name">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="Mobile">Mobile</label>
+                                    <input type="text" class="form-control"  id="Mobile" name="mobile">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="pin">Pin</label>
+                                    <input type="text" class="form-control"  id="pin" name="pin">
+                                </div>
+                                <button type="submit" name="add_user" class="btn btn-primary">Add</button>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% if user %}
+            <div class="container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">name</th>
+                            <th scope="col">mobile</th>
+                            <th scope="col">pin</th>
+                            <th scope="col">Type</th>
+                            <th scope="col">status</th>
+                            <th scope="col">Edit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for u in user %}
+                        <tr>
+                            <th scope="row">{{forloop.counter}}</th>
+                            <td>{{u.name}}</td>
+                            <td>{{u.mobile}}</td>
+                            <td>{{u.pin}}</td>
+                            <td>{{u.user_type.name}}</td>
+                            <td><form class="" method="POST">{% csrf_token %}{% if u.status == 1 %}<button class="btn btn-success" type="submit" name="active">Active<input type="hidden" name="id" value="{{u.id}}"></button>{% else %}<button class="btn btn-danger" type="submit" name="deactive">Deactive<input type="hidden" name="id" value="{{u.id}}"></button>{% endif %}</form></td>
+                            <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#edit_user{{u.id}}">Edit</button></td>
+                            <div class="modal fade" id="edit_user{{u.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Edit to - {{u.name}}</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form method="POST">{% csrf_token %}
+                                                <div class="mb-3">
+                                                    <select name="user_type" class="form-select" aria-label="Default select example">
+                                                        <option value="{{u.user_type.id}}">{{u.user_type.name}}</option>
+                                                        {% for u in user_type %}
+                                                            <option value="{{u.id}}">{{u.name}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <input type="hidden" value="{{u.id}}" name="id">
+                                                <div class="mb-3">
+                                                    <label for="name">Name</label>
+                                                    <input type="text" class="form-control" value="{{u.name}}" id="name" name="name">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="Mobile">Mobile</label>
+                                                    <input type="text" class="form-control" value="{{u.mobile}}" id="Mobile" name="mobile">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="pin">Pin</label>
+                                                    <input type="text" class="form-control" value="{{u.pin}}" id="pin" name="pin">
+                                                </div>
+                                                <button type="submit" name="edit_user" class="btn btn-primary">Edit</button>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% endif  %}
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

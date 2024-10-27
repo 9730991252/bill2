@@ -1,0 +1,74 @@
+<style>
+    .form_box{
+        border: 1px solid black;
+        padding: 10px;
+        margin-top: 10px;
+        border-radius: 10px;
+        background-color: rgb(218, 247, 247);
+        input{
+            width: 200px;
+        }
+    }
+    .to_box{
+        border: 1px solid black;
+        padding: 10px;
+        margin-top: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        border-radius: 10px;
+        background-color: rgb(211, 255, 222);
+        input{
+            width: 200px;
+        }
+    }
+</style>
+
+<input type="hidden" name="user_id" value="{{user_id}}" required>
+<div class="mb-3 form_box ">
+    <div>
+        <label for="disabledTextInput" class="form-label">From</label>
+        <select onclick="selected()"  class="form-select" id="user_phonepe" aria-label="Default select example" name="from_bank_id" required>
+            <option value=""  >Bank Account </option>
+            {% for b in bank %}
+                <option value="{{b.id}}" id="{{b.amount}}">{{b.bank_name}} - {{b.number}} - Rs.{{b.amount |floatformat:2 }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <label for="disabledTextInput" class="form-label">Available phonepe  Rs. {{cash.amount | floatformat:2 }}</label>
+</div>
+<div class="mb-3 to_box ">
+    <div>
+        <label for="disabledTextInput" class="form-label">To</label>
+    </div>
+    <div class="mb-3">
+        <select class="form-select"  aria-label="Default select example" name="transfer_to_user_bank_id" required>
+            <option value=""  >Transfer To</option>
+            {% for b in  to_bank %}
+            <option value="{{b.id}}"  > {{b.user.name}}- {{b.bank_name}} - {{b.number}}</option>
+            {% endfor %}
+        </select>    
+    </div>
+        <input type="text" class="form-control" oninput="check_enter_amount()" name="amount" id="enter_amount" placeholder="Amount" required>
+</div>
+      <button type="submit" class="btn btn-danger" name="User_transfer_bank">Phonepe Transfer</button>
+
+
+
+<script>
+    function selected(){
+        var e = document.getElementById("user_phonepe");
+        amount1 = e.options[e.selectedIndex].id;
+        console.log(amount)
+    }
+
+    function check_enter_amount(){
+
+        amount=document.getElementById('enter_amount').value;
+
+        if(parseInt(amount1) <= parseInt(amount)){
+
+        document.getElementById('enter_amount').value = '';
+        }
+        }
+</script>

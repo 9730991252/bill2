@@ -1,0 +1,14 @@
+<style>
+    a{
+            width: 100%;
+        }
+</style>
+
+<div class="but">
+    <a  href="/office/office_home/" class="my-1 {% if request.path == '/office/office_home/' %}btn btn-warning{% else %}btn btn-primary{% endif %}">Home</a>
+      <a  href="/office/user/" class="my-1 {% if request.path == '/office/user/' %}btn btn-warning{% else %}btn btn-primary{% endif %}">User</a>
+      <a  href="/office/type/" class="my-1 {% if request.path == '/office/type/' %}btn btn-warning{% else %}btn btn-primary{% endif %}">User Type</a>
+      <a  href="/office/phonepe/" class="my-1 {% if request.path == '/office/phonepe/' %}btn btn-warning{% else %}btn btn-primary{% endif %}">Phonepe</a>
+      <a  href="/office/bank_account/" class="my-1 {% if request.path == '/office/bank_account/' %}btn btn-warning{% else %}btn btn-primary{% endif %}">Bank Account</a>
+    <a href="/office_logout/" class="btn btn-danger my-1">Logout</a>
+</div>

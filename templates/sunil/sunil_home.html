@@ -1,0 +1,103 @@
+{% extends 'home/base.html' %}
+{% block head %}
+{% endblock head %}
+{% block content %}
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Add_Office_Empoloyee">
+    Add Office Empoloyee
+  </button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="Add_Office_Empoloyee" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Add_Office_Empoloyee</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form method="POST">{% csrf_token %}
+                <div class="mb-3">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" name="name" placeholder="Name">
+                </div>
+                <div class="mb-3">
+                    <label for="Mobile">Mobile</label>
+                    <input type="text" class="form-control" name="mobile" placeholder="Mobile">
+                </div>
+                <div class="mb-3">
+                    <label for="Pin">Pin</label>
+                    <input type="text" class="form-control" name="pin" placeholder="Pin">
+                </div>
+                <div class="mb-3">
+                    <button type="submit" name="add_office_employee" class="btn btn-primary">Add</button>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  {% if office_employee %}
+  <table class="table table-stripted">
+    <thead>
+      <tr>
+        <th scope="col">id</th>
+        <th scope="col">name</th>
+        <th scope="col">mobile</th>
+        <th scope="col">pin</th>
+        <th scope="col">Edit</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for o in office_employee %}
+        <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            <td>{{o.name}}</td>
+            <td>{{o.mobile}}</td>
+            <td>{{ o.pin }}</td>
+            <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#edit_Office_Empoloyee{{o.id}}">Edit</button></td>
+            <div class="modal fade" id="edit_Office_Empoloyee{{o.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="staticBackdropLabel">Edit to - {{o.name}}</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST">{% csrf_token %}
+                            <input type="hidden" name="id" value="{{o.id}}">
+                            <div class="mb-3">
+                                <label for="name">Name</label>
+                                <input type="text" class="form-control" value="{{o.name}}" name="name" placeholder="Name">
+                            </div>
+                            <div class="mb-3">
+                                <label for="Mobile">Mobile</label>
+                                <input type="text" class="form-control" name="mobile" value="{{o.mobile}}" placeholder="Mobile">
+                            </div>
+                            <div class="mb-3">
+                                <label for="Pin">Pin</label>
+                                <input type="text" class="form-control" name="pin" value="{{o.pin}}" placeholder="Pin">
+                            </div>
+                            <div class="mb-3">
+                                <button type="submit" name="edit_office_employee" class="btn btn-primary">edit</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
+{% endblock content %}

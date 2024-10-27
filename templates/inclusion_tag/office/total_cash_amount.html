@@ -1,0 +1,39 @@
+<style>
+    .heading_total_cash_box{
+        margin-top: 50px;
+        border:1px solid black;
+        width: 350px;
+        text-align: center;
+        font-weight: 500;
+    }
+.total_cash_box{
+    display: grid;
+    width: 350px;
+    grid-template-columns: repeat(2,1fr);
+    div{
+            border:1px solid black;
+            text-align: center;
+        }
+
+}
+.total_cash{
+    border:1px solid black;
+     grid-column-start: 1;
+     grid-column-end: 3;
+    text-align: center;  
+    font-weight: 500;
+}
+</style>
+<div >
+<div class="heading_total_cash_box">Available All Cash Amount</div>
+
+<div class="total_cash_box">
+{% for c in cash %}
+<div style="border-bottom: none;"> {{c.user.user_type.name}} - {{c.user.name}}</div>
+<div style="display: flex;align-items: center;justify-content: center;border-left: none; border-bottom: none;">{{c.amount | floatformat:2 }}</div>
+
+{% endfor %}
+<div  class="total_cash" style="border-top: 2px solid black;"> Total Cash Rs. {{ total_cash | floatformat:0 }}</div>
+</div>
+
+</div>

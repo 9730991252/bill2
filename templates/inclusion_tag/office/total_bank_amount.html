@@ -1,0 +1,45 @@
+<style>
+    *{
+        user-select: none;
+    }
+    .heading_total_phonepe_box{
+        margin-top: 50px;
+        border:1px solid black;
+        width: 350px;
+        text-align: center;
+        font-weight: 500;
+    }
+.total_phone_box{
+    display: grid;
+    width: 350px;
+    grid-template-columns: repeat 2fr 1fr ;
+    div{
+            border:1px solid black;
+            text-align: center;
+
+         
+        }
+
+}
+.total_phonepe{
+    border:1px solid black;
+     grid-column-start: 1;
+     grid-column-end: 3;
+    text-align: center;  
+    font-weight: 500;
+}
+</style>
+<div >
+<div class="heading_total_phonepe_box">Available All Bank Amount</div>
+
+<div class="total_phone_box">
+{% for b in bank %}
+
+<div style="border-bottom: none;">{{b.user.user_type.name}} - {{b.user.name}} <br> {{b.bank_name}} - {{b.number}}</div>
+<div style="display: flex;align-items: center;justify-content: center;border-left: none; border-bottom: none;">{{b.amount | floatformat:2 }}</div>
+
+{% endfor %}
+<div  class="total_phonepe" style="border-top: 2px solid black;"> Total PhonePe Rs. {{ total_bank | floatformat:0 }}</div>
+</div>
+
+</div>

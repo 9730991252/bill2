@@ -1,0 +1,64 @@
+<input type="hidden" name="user_id" value="{{user_id}}" required>
+<style>
+    .cash_box{
+        border: 1px solid black;
+        padding: 10px;
+        margin-top: 10px;
+        border-radius: 10px;
+        background-color: rgb(218, 247, 247);
+        input{
+            width: 300px;
+        }
+    }
+    .to_box{
+        border: 1px solid black;
+        padding: 10px;
+        margin-top: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        border-radius: 10px;
+        background-color: rgb(211, 255, 222);
+        input{
+            width: 200px;
+        }
+    }
+</style>
+<div class="mb-3 cash_box ">
+    <div>
+        <label for="disabledTextInput" class="form-label">From</label>
+        <input type="text" class="form-control" value="{{cash.user.name}} Available Cash Rs. {{cash.amount}}" readonly>
+    </div>
+</div>
+<div class="mb-3 to_box ">
+    <div>
+        <label for="disabledTextInput" class="form-label">To</label>
+    </div>
+    <div class="mb-3">
+        <select class="form-select"  aria-label="Default select example" name="transfer_to_user_bank_id" required>
+            <option value=""  >Transfer To Bank </option>
+            {% for b in  to_bank %}
+            <option value="{{b.id}}"  > {{b.user.name}}- {{b.bank_name}} - {{b.number}}</option>
+            {% endfor %}
+        </select>    
+    </div>
+        <input type="text" class="form-control" oninput="check_enter_amount()" name="amount" id="enter_amount" placeholder="Amount" required>
+</div>
+<button type="submit" class="btn btn-danger" name="User_transfer_cash_to_bank">Transfer Cash</button>
+
+
+
+<script>
+
+  cash='{{cash.amount}}'
+
+  function check_enter_amount(){
+
+    amount=document.getElementById('enter_amount').value;
+
+if(parseInt(cash) <= parseInt(amount)){
+
+  document.getElementById('enter_amount').value = '' ;
+}
+}
+</script>

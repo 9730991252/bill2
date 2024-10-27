@@ -1,0 +1,89 @@
+{% extends 'home/base.html' %}
+{% block title %} Report{% endblock title %}
+{% block content %}
+<div class="container">
+    <div class=""><h>Welcome - {{e.name}}</h></div>
+    <div class="row">
+        <div class="col-2">
+            {% include 'include/office/office_menu.html' %}  
+        </div>
+        <div class="col-10">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_Type">
+                    Add Type
+                </button>
+                
+                <!-- Modal -->
+                <div class="modal fade" id="add_Type" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Type</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="POST">{% csrf_token %}
+                                <div class="mb-3">
+                                    <label for="name">Name</label>
+                                    <input type="text" class="form-control" id="name" name="name">
+                                </div>
+                                <button type="submit" name="add_type" class="btn btn-primary">Add</button>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                {% if user_type %}
+                <div class="container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">name</th>
+                                <th scope="col">status</th>
+                                <th scope="col">Edit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for u in user_type %}
+                            <tr>
+                                <th scope="row">{{forloop.counter}}</th>
+                                <td>{{u.name}}</td>
+                                <td><form class="" method="POST">{% csrf_token %}{% if u.status == 1 %}<button class="btn btn-success" type="submit" name="active">Active<input type="hidden" name="id" value="{{u.id}}"></button>{% else %}<button class="btn btn-danger" type="submit" name="deactive">Deactive<input type="hidden" name="id" value="{{u.id}}"></button>{% endif %}</form></td>
+                                <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#edit_Type{{u.id}}">Edit</button></td>
+                                <div class="modal fade" id="edit_Type{{u.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Edit to - {{u.name}}</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form method="POST">{% csrf_token %}
+                                                <input type="hidden" value="{{u.id}}" name="id">
+                                                <div class="mb-3">
+                                                    <label for="name">Name</label>
+                                                    <input type="text" class="form-control" value="{{u.name}}" id="name" name="name">
+                                                </div>
+                                                <button type="submit" name="edit_type" class="btn btn-primary">Edit</button>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% endif  %}
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

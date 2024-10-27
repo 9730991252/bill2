@@ -1,0 +1,270 @@
+{% extends 'home/base.html' %}
+{% block head %}
+{% endblock head %}
+{% block content %}
+{% load office_tag %}
+<style>
+.medium_selection_boxes{
+    display: flex;
+    justify-content: space-evenly;
+    div{
+        background-color: rgb(244, 230, 255);
+        padding: 10px;
+        border-radius: 10px;
+        margin: 10px;
+        text-align: center;
+    }
+}
+
+.available_box{
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr ;
+
+}
+.available_cash{
+    border: 1px solid black;
+    width: 150px;
+    text-align: center;
+    margin: 0 auto;
+    border-radius: 10px;
+    
+
+
+}
+.available_phonepe{
+    margin-top: 10px;
+    border: 1px solid black;
+    width: 150px;
+    text-align: center;
+    margin: 0 auto;
+    border-radius: 10px; 
+}    
+.available_bank{
+    margin-top: 10px;
+    border: 1px solid black;
+    width: 150px;
+    text-align: center;
+    margin: 0 auto;
+    border-radius: 10px; 
+}    
+
+
+
+@media screen and (max-width: 480px) {
+    .available_box{
+    display: grid;
+    grid-template-columns: 1fr ;
+
+}
+}
+</style>
+
+
+<div> <small>{{user.user_type.name}} = Welcome - {{user.name}}</small></div>
+<br>
+
+{% include 'include/user/user_menu.html' %}
+
+
+<div class="container">
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Transfer Amount
+  </button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Transfer Details</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form method="POST">{% csrf_token %}
+                
+                <div class="medium_selection_boxes">
+                    <div onclick="transfer_user_cash('{{user.id}}')" id="transfer_user_cash">Cash To Cash </div>
+                    <div onclick="transfer_user_cash_to_bank('{{user.id}}')" id="transfer_user_cash_to_bank">Cash To Bank </div>
+                    <div onclick="transfer_user_phonepe('{{user.id}}')" id="transfer_user_phonepe">PhonePe To Phonepe </div>
+                    <div onclick="transfer_user_bank('{{user.id}}')"  id="transfer_user_bank">Bank To Bank </div>
+                </div>
+                
+                <div class="text-center" ><h6 id="oppend"></h6></div>
+                
+                <div id="result">
+                </div>
+
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal -->
+
+
+</div>
+
+
+
+<div class="available_box">
+<div class="available_cash">
+    <div class="cash">Cash Rs. <strong >{{cash.amount |floatformat:2}}</strong></div>
+</div>
+
+<div class="available_phonepe mt-2">
+    {% for p in phonepe %}
+    <div class="cash">phonepe {{p.user.name}} - {{p.mobile}} Rs. <strong>{{p.amount|floatformat:2}}</strong></div>
+    {% endfor %}
+</div>
+<div class="available_bank mt-2">
+    {% for b in bank %}
+    <div class="cash">{{b.user.name}} - {{b.bank_name}}- {{b.number}} Rs.<strong> {{b.amount|floatformat:2}}</strong></div>
+    {% endfor %}
+</div>
+
+</div>
+
+
+<div class="container mt-2">
+    <table class="table table-striped  table-bordered table-hover">
+        <thead>
+          <tr>
+            <th scope="col">From</th>
+            <th scope="col">To</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Date</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for c in cash_amount %}
+                <tr>
+                    <td>{{user.name}}</td>
+                    <td>{{c.to_user.user.name}}</td>
+                    <td>Rs.{{c.amount}}</td>
+                    <td>{{c.added_date}}</td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td><hr></td>
+                    <td><hr></td>
+                    <td><hr></td>
+                    <td><hr></td>
+                </tr>
+                {% for c in phonepe_transition %}
+                <tr>
+                    <td>{% from_phonepe_transfer c.from_phonepe_id %}</td>
+                    <td>{{c.to_phonepe.user.name | slice:':3'}}... - {{c.to_phonepe.mobile|stringformat:"d"|slice:"6:10"}} </td>
+                    <td>Rs.{{c.amount}} </td>
+                    <td>{{c.added_date}}</td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td><hr></td>
+                    <td><hr></td>
+                    <td><hr></td>
+                    <td><hr></td>
+                </tr>
+                {% for c in bank_transition %}
+                <tr>
+                    <td>{% from_bank_transfer c.from_bank_id  %}</td>
+                    <td>{{c.to_bank.bank_name | slice:':4'}}. - {{c.to_bank.number|stringformat:"d"|slice:"10:15"}} </td>
+                    <td> Rs.{{c.amount}}</td>
+                    <td>{{c.added_date}}</td>
+                </tr>
+            {% endfor %}
+                <tr>
+                    <td><hr></td>
+                    <td><hr></td>
+                    <td><hr></td>
+                    <td><hr></td>
+                </tr>
+                {% for c in cash_transfer_to_bank %}
+                <tr>
+                    <td>{{c.from_user.name}}</td>
+                    <td>{{c.to_bank.bank_name | slice:':4'}}. - {{c.to_bank.number|stringformat:"d"|slice:"10:15"}} </td>
+                    <td> Rs.{{c.amount}}</td>
+                    <td>{{c.added_date}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+</div>
+
+
+
+
+
+<script>
+
+
+function transfer_user_cash(user_id){
+    
+    $.ajax({
+        type:'GET',
+        url:'{% url "transfer_user_cash" %}',
+        data:{
+            user_id:user_id,
+        },
+        success: function(data){
+            $("#result").html('')
+            $("#result").html(data.t)
+            $("#oppend").html('')
+            $("#oppend").html('Cash to Cash')
+        }
+    })
+}
+
+function transfer_user_cash_to_bank(user_id){
+    
+    $.ajax({
+        type:'GET',
+        url:'{% url "transfer_user_cash_to_bank" %}',
+        data:{
+            user_id:user_id,
+        },
+        success: function(data){
+            $("#result").html('')
+            $("#result").html(data.t)
+            $("#oppend").html('')
+            $("#oppend").html('Cash to Bank')
+        }
+    })
+}
+function transfer_user_phonepe(user_id){
+    $.ajax({
+        type:'GET',
+        url:'{% url "transfer_user_phonepe" %}',
+        data:{
+            user_id:user_id,
+        },
+        success: function(data){
+            $("#result").html('')
+            $("#result").html(data.t)
+            $("#oppend").html('')
+            $("#oppend").html('Phonepe to Phonepe')
+        }
+    })
+}
+function transfer_user_bank(user_id){
+    $.ajax({
+        type:'GET',
+        url:'{% url "transfer_user_bank" %}',
+        data:{
+            user_id:user_id,
+        },
+        success: function(data){
+            $("#result").html('')
+            $("#result").html(data.t)
+            $("#oppend").html('')
+            $("#oppend").html('Bank to Bank')
+        }
+    })
+}
+</script>
+{% endblock content %}
