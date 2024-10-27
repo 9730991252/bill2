@@ -19,12 +19,12 @@ def total_amount():
         bank = b['amount__sum']
         bank_amount=float(math.floor(bank))
         total = (total_cash + phonepe_amount + bank_amount)
-    return {
-        'total_cash':total_cash,
-        'phonepe_amount':phonepe_amount,
-        'bank_amount':bank_amount,
-        'total':total
-    } 
+        return {
+            'total_cash':total_cash,
+            'phonepe_amount':phonepe_amount,
+            'bank_amount':bank_amount,
+            'total':total
+        } 
     
 @register.inclusion_tag('inclusion_tag/office/total_pending_amount.html')
 def total_pending_amount():
