@@ -11,7 +11,8 @@ def total_amount():
     cash = User_cash.objects.all().aggregate(Sum('amount'))
     if cash:
         total_cash = cash['amount__sum']
-        total_cash=float(math.floor(total_cash))
+        if total_cash != None:
+            total_cash=float(math.floor(total_cash))
         p = Phonepe.objects.all().aggregate(Sum('amount'))
         phonepe = p['amount__sum']
         phonepe_amount=float(math.floor(phonepe))
