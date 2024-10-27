@@ -19,8 +19,9 @@ exit
 _______________________________________
 
 
-git clone https://github.com/9730991252/bill.git
+git clone https://github.com/9730991252/bill2.git
 
+mv bill2 bill
 _______________________________________
 ********** Create Virtual env *****
 

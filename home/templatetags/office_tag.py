@@ -9,15 +9,16 @@ register = template.Library()
 @register.inclusion_tag('inclusion_tag/office/total_amount.html')
 def total_amount():
     cash = User_cash.objects.all().aggregate(Sum('amount'))
-    total_cash = cash['amount__sum']
-    total_cash=float(math.floor(total_cash))
-    p = Phonepe.objects.all().aggregate(Sum('amount'))
-    phonepe = p['amount__sum']
-    phonepe_amount=float(math.floor(phonepe))
-    b = Bank_account.objects.all().aggregate(Sum('amount'))
-    bank = b['amount__sum']
-    bank_amount=float(math.floor(bank))
-    total = (total_cash + phonepe_amount + bank_amount)
+    if cash:
+        total_cash = cash['amount__sum']
+        total_cash=float(math.floor(total_cash))
+        p = Phonepe.objects.all().aggregate(Sum('amount'))
+        phonepe = p['amount__sum']
+        phonepe_amount=float(math.floor(phonepe))
+        b = Bank_account.objects.all().aggregate(Sum('amount'))
+        bank = b['amount__sum']
+        bank_amount=float(math.floor(bank))
+        total = (total_cash + phonepe_amount + bank_amount)
     return {
         'total_cash':total_cash,
         'phonepe_amount':phonepe_amount,
@@ -28,7 +29,8 @@ def total_amount():
 @register.inclusion_tag('inclusion_tag/office/total_pending_amount.html')
 def total_pending_amount():
     user = User.objects.all()
-    total = Bill.objects.all().aggregate(Sum('pending_amount'))
+    if user:
+        total = Bill.objects.all().aggregate(Sum('pending_amount'))
     return {
         'user':user,   
         'total':total['pending_amount__sum']
@@ -38,8 +40,9 @@ def total_pending_amount():
 @register.inclusion_tag('inclusion_tag/office/total_cash_amount.html')
 def total_cash_amount():
     cash = User_cash.objects.all()
-    ca = cash.aggregate(Sum('amount'))
-    total_cash = ca['amount__sum']
+    if cash:
+        ca = cash.aggregate(Sum('amount'))
+        total_cash = ca['amount__sum']
     return {
         'cash':cash,
     'total_cash':total_cash
@@ -49,8 +52,9 @@ def total_cash_amount():
 @register.inclusion_tag('inclusion_tag/office/total_phonepe_amount.html')
 def total_phonepe_amount():
     phone = Phonepe.objects.all()
-    pa = phone.aggregate(Sum('amount'))
-    total_phonepe = pa['amount__sum']
+    if phone:
+        pa = phone.aggregate(Sum('amount'))
+        total_phonepe = pa['amount__sum']
     return {
         'phone':phone,
     'total_phonepe':total_phonepe
@@ -60,8 +64,9 @@ def total_phonepe_amount():
 @register.inclusion_tag('inclusion_tag/office/total_bank_amount.html')
 def total_bank_amount():
     bank = Bank_account.objects.all()
-    pa = bank.aggregate(Sum('amount'))
-    total_bank = pa['amount__sum']
+    if bank:
+        pa = bank.aggregate(Sum('amount'))
+        total_bank = pa['amount__sum']
     return {
         'bank':bank,
         'total_bank':total_bank
@@ -69,20 +74,23 @@ def total_bank_amount():
     
 @register.simple_tag()
 def user_pending_bill_amount(user_id):
-    bill = Bill.objects.filter(user_id=user_id).aggregate(Sum('pending_amount'))
-    if bill['pending_amount__sum'] == None:
-        return 0
-    else:
-        return bill['pending_amount__sum']
+    if user_id:
+        bill = Bill.objects.filter(user_id=user_id).aggregate(Sum('pending_amount'))
+        if bill['pending_amount__sum'] == None:
+            return 0
+        else:
+            return bill['pending_amount__sum']
     
     
 
 @register.simple_tag()
 def from_phonepe_transfer(id):
-    phonepe = Phonepe.objects.filter(id=id).first()
-    return str(phonepe.mobile)[6:10]
+    if id:
+        phonepe = Phonepe.objects.filter(id=id).first()
+        return str(phonepe.mobile)[6:10]
 
 @register.simple_tag()
 def from_bank_transfer(id):
-    bank = Bank_account.objects.filter(id=id).first()
-    return str(bank.number)[10:15]
+    if id:
+        bank = Bank_account.objects.filter(id=id).first()
+        return str(bank.number)[10:15]
