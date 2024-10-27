@@ -38,13 +38,17 @@ def total_amount():
 @register.inclusion_tag('inclusion_tag/office/total_pending_amount.html')
 def total_pending_amount():
     user = User.objects.all()
-    total = 0
     if user:
         total = Bill.objects.all().aggregate(Sum('pending_amount'))
-    return {
-        'user':user,   
-        'total':total['pending_amount__sum']
-    } 
+        return {
+            'user':user,   
+            'total':total['pending_amount__sum']
+        } 
+    else:
+        return {
+            'user':user,   
+            'total':0
+        } 
     
     
 @register.inclusion_tag('inclusion_tag/office/total_cash_amount.html')
