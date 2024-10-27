@@ -54,6 +54,7 @@ def total_pending_amount():
 @register.inclusion_tag('inclusion_tag/office/total_cash_amount.html')
 def total_cash_amount():
     cash = User_cash.objects.all()
+    total_cash = 0
     if cash:
         ca = cash.aggregate(Sum('amount'))
         total_cash = ca['amount__sum']
