@@ -13,14 +13,20 @@ def total_amount():
         total_cash = cash['amount__sum']
         if total_cash != None:
             total_cash=float(math.floor(total_cash))
+        else: 
+            total_cash = 0
         p = Phonepe.objects.all().aggregate(Sum('amount'))
         phonepe = p['amount__sum']
         if phonepe != None:
             phonepe_amount=float(math.floor(phonepe))
+        else:
+            phonepe_amount = 0
         b = Bank_account.objects.all().aggregate(Sum('amount'))
         bank = b['amount__sum']
         if bank != None:
             bank_amount=float(math.floor(bank))
+        else:
+            bank_amount = 0
         total = (total_cash + phonepe_amount + bank_amount)
         return {
             'total_cash':total_cash,
