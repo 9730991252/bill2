@@ -6,4 +6,5 @@ urlpatterns = [
     path('bill_in/<int:id>', views.bill_in, name='bill_in'),
     path('out/', views.out, name='out'),
     path('transfer/', views.transfer, name='transfer'),
+    path('phonepe_verify/', views.phonepe_verify, name='phonepe_verify'),
 ]

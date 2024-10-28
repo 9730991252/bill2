@@ -131,7 +131,7 @@
     amount = '{{bill.pending_amount}}'
     function check_amount(){
         input_amount = document.getElementById('input_amount').value;
-        if ( parseInt(amount) <= parseInt(input_amount)){
+        if ( parseInt(amount) < parseInt(input_amount)){
             document.getElementById('input_amount').value = '';
         }
     }

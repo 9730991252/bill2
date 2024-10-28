@@ -231,3 +231,15 @@ def transfer(request):
         return render(request, 'user/transfer.html', context)
     else:
         return redirect('login')
+    
+def phonepe_verify(request):
+    if request.session.has_key('user_mobile'):
+        user_mobile = request.session['user_mobile']
+        user=User.objects.filter(mobile=user_mobile).first()
+        
+        context={
+            'user':user,
+        }
+        return render(request, 'user/phonepe_verify.html', context)
+    else:
+        return redirect('login')
