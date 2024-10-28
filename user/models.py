@@ -52,7 +52,7 @@ class Bill(models.Model):
     pending_amount = models.FloatField()
     pending_amount_status = models.IntegerField(default=1)
     
-    
+     
 Payment_type = (
     ("1", "In"),
     ("2", "Out"),

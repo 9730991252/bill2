@@ -101,12 +101,12 @@ def bill_in(request, id):
             b=Bill.objects.filter(id=id).first()
             b.pending_amount_status=0
             b.save()
-            return redirect('/user/bill/')
+            return redirect('/user/bill/') 
         context={
             'user':user,
             'bill':Bill.objects.filter(id=id).first(),
-            'phonepe':Phonepe.objects.filter(status=1),
-            'bank_account':Bank_account.objects.filter(status=1),
+            'phonepe':Phonepe.objects.filter(status=1,user_id=user.id),
+            'bank_account':Bank_account.objects.filter(status=1,user_id=user.id),
             'cash_amount':Cash_amount.objects.filter(bill_id=id),
             'phonepe_transition':Phonepe_transition.objects.filter(bill_id=id),
             'bank_transition':Bank_transition.objects.filter(bill_id=id),
