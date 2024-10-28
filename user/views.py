@@ -39,7 +39,7 @@ def bill(request):
             return redirect('bill')
         context={
             'user':user,
-            'bill':Bill.objects.filter(pending_amount_status=1, user_id=user.id),
+            'bill':Bill.objects.filter(pending_amount_status=1, user_id=user.id).order_by('-id'),
             'all_bill':Bill.objects.filter(pending_amount_status=0, user_id=user.id).order_by('-id')
         }
         return render(request, 'user/bill.html', context)
