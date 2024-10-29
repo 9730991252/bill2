@@ -144,7 +144,7 @@
         <tbody>
             {% for c in cash_amount %}
                 <tr>
-                    <td>{{user.name}}</td>
+                    <td>{{c.user.name}}</td>
                     <td>{{c.to_user.user.name}}</td>
                     <td>Rs.{{c.amount}}</td>
                     <td>{{c.added_date}}</td>
@@ -159,7 +159,7 @@
                 {% for c in phonepe_transition %}
                 <tr>
                     <td>{% from_phonepe_transfer c.from_phonepe_id %}</td>
-                    <td>{{c.to_phonepe.user.name | slice:':3'}}... - {{c.to_phonepe.mobile|stringformat:"d"|slice:"6:10"}} </td>
+                    <td>{{c.to_phonepe.user.name }}... - {{c.to_phonepe.mobile}} </td>
                     <td>Rs.{{c.amount}} </td>
                     <td>{{c.added_date}}</td>
                 </tr>
@@ -173,7 +173,7 @@
                 {% for c in bank_transition %}
                 <tr>
                     <td>{% from_bank_transfer c.from_bank_id  %}</td>
-                    <td>{{c.to_bank.bank_name | slice:':4'}}. - {{c.to_bank.number|stringformat:"d"|slice:"10:15"}} </td>
+                    <td>{{c.to_bank.bank_name}}. - {{c.to_bank.number}} </td>
                     <td> Rs.{{c.amount}}</td>
                     <td>{{c.added_date}}</td>
                 </tr>
@@ -187,7 +187,7 @@
                 {% for c in cash_transfer_to_bank %}
                 <tr>
                     <td>{{c.from_user.name}}</td>
-                    <td>{{c.to_bank.bank_name | slice:':4'}}. - {{c.to_bank.number|stringformat:"d"|slice:"10:15"}} </td>
+                    <td>{{c.to_bank.bank_name}}. - {{c.to_bank.number}} </td>
                     <td> Rs.{{c.amount}}</td>
                     <td>{{c.added_date}}</td>
                 </tr>

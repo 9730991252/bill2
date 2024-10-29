@@ -1,0 +1,79 @@
+{% extends 'home/base.html' %}
+{% block head %}
+{% endblock head %}
+{% block content %}
+{% load user_tag %}
+<div> <small> {{user.user_type.name}} = Welcome - {{user.name}}</small></div>
+<br>    
+
+{% include 'include/user/user_menu.html' %}
+<br>
+<div class="flex">
+   <a href="/user/bill_in_verify/" class="btn btn-primary">Bill In</a>
+   <a href="/user/transfer_in_verify/" class="btn btn-warning">Transfer</a>
+</div>
+
+
+
+<style>
+   *{
+       margin: 0;
+       padding: 0;
+       box-sizing: border-box;
+   }
+   .bill_in_card_box{
+       border: 1px solid black;
+       border-radius: 10px;
+       width: 90%;
+       text-align: center;
+       padding: 10px;
+       margin: 0 auto;
+       margin-bottom: 10px;
+   }
+   .from_user{
+    background-color: rgb(189, 255, 255);
+    padding: 10px;
+    margin-bottom: 10px;
+   }
+   .to_user{
+    background-color: rgb(255, 217, 249);
+    padding: 10px;
+   }
+</style>
+<div class="text-center">
+<h6>Transfer Verify</h6>
+</div>
+
+{% for t in phonepe_transfer %}
+
+<div class="bill_in_card_box">
+   <div class="from_user">{% phonepe_transfer_user t.from_phonepe_id %}</div>
+   <div class="to_user">To - {{t.to_phonepe.mobile}}</div>
+   <div class="bill_name">{{t.bill.bill_number}}</div>
+   <div class="date">Amount - <strong>{{t.amount}}</strong></div>
+   <div class="date">{{t.added_date}}</div>
+   <div id="phonepe_status_box{{t.id}}">{% if t.to_verify_status == 0 %}<button onclick="transfer_verify_phonepe('{{t.id}}')" type="submit" class="btn btn-danger mt-2">Verify</button>{% else %}<h6 class="text-success">Verifide</h6>{% endif %}</div>
+
+</div>
+
+{% endfor %}
+
+
+<script>
+    function transfer_verify_phonepe(phonepe_transfer_id){
+        $.ajax({
+        type:'GET',
+        url:'{% url "transfer_verify_phonepe" %}',
+        data:{
+            phonepe_transfer_id:phonepe_transfer_id,
+        },
+        success: function(data){
+            if(data.status == 1){
+                document.getElementById('phonepe_status_box'+phonepe_transfer_id).innerHTML=`<h6 class="text-success">Verifide</h6>`
+            }
+            }
+        })
+    }
+</script>
+
+{% endblock content %}

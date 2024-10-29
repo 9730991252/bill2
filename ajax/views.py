@@ -101,3 +101,48 @@ def search_bill(request):
         }
         t = render_to_string('ajax/user/search_bill.html',context)
     return JsonResponse({'t': t})
+
+def bill_in_verify_phonepe(request):
+    if request.method == 'GET':
+        phonepe_transition_id = request.GET['phonepe_transition_id']
+        phonepe_transition = Phonepe_transition.objects.filter(id=phonepe_transition_id).first()
+        if phonepe_transition.self_verify_status == 0:
+           phonepe_transition.self_verify_status = 1
+           phonepe_transition.save()
+    return JsonResponse({'status': 1})
+
+def transfer_verify_phonepe(request):
+    if request.method == 'GET':
+        phonepe_transfer_id = request.GET['phonepe_transfer_id']
+        phonepe_transfer = Phonepe_transfer.objects.filter(id=phonepe_transfer_id).first()
+        if phonepe_transfer.to_verify_status == 0:
+            phonepe_transfer.to_verify_status = 1
+            phonepe_transfer.save()
+    return JsonResponse({'status': 1})
+
+def bill_in_verify_bank(request):
+    if request.method == 'GET':
+        bank_transition_id = request.GET['bank_transition_id']
+        bank_transition = Bank_transition.objects.filter(id=bank_transition_id).first()
+        if bank_transition.self_verify_status == 0:
+            bank_transition.self_verify_status = 1
+            bank_transition.save()
+    return JsonResponse({'status': 1})
+
+def transfer_verify_cash_to_bank(request):
+    if request.method == 'GET':
+        cash_transfer_to_bank_id = request.GET['cash_transfer_to_bank_id']
+        cash_transfer_to_bank = Cash_transfer_to_bank.objects.filter(id=cash_transfer_to_bank_id).first()
+        if cash_transfer_to_bank.to_verify_status == 0:
+            cash_transfer_to_bank.to_verify_status = 1
+            cash_transfer_to_bank.save()
+    return JsonResponse({'status': 1})
+
+def transfer_verify_bank(request):
+    if request.method == 'GET':
+        bank_transfer_id = request.GET['bank_transfer_id']
+        bank_transfer = Bank_transfer.objects.filter(id=bank_transfer_id).first()
+        if bank_transfer.to_verify_status == 0:
+            bank_transfer.to_verify_status = 1
+            bank_transfer.save()
+    return JsonResponse({'status': 1})

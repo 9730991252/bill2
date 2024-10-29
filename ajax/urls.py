@@ -9,4 +9,9 @@ urlpatterns = [
     path('transfer_user_bank', views.transfer_user_bank, name='transfer_user_bank'),
     path('transfer_user_cash_to_bank', views.transfer_user_cash_to_bank, name='transfer_user_cash_to_bank'),
     path('search_bill', views.search_bill, name='search_bill'),
+    path('bill_in_verify_phonepe', views.bill_in_verify_phonepe, name='bill_in_verify_phonepe'),
+    path('transfer_verify_phonepe', views.transfer_verify_phonepe, name='transfer_verify_phonepe'),
+    path('bill_in_verify_bank', views.bill_in_verify_bank, name='bill_in_verify_bank'),
+    path('transfer_verify_cash_to_bank', views.transfer_verify_cash_to_bank, name='transfer_verify_cash_to_bank'),
+    path('transfer_verify_bank', views.transfer_verify_bank, name='transfer_verify_bank'),
 ]

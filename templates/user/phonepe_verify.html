@@ -1,11 +1,16 @@
-{% extends 'home/base.html' %}
-{% block head %}
-{% endblock head %}
-{% block content %}
-<div> <small> {{user.user_type.name}} = Welcome - {{user.name}}</small></div>
-<br>
+ {% extends 'home/base.html' %}
+ {% block head %}
+ {% endblock head %}
+ {% block content %}
+ <div> <small> {{user.user_type.name}} = Welcome - {{user.name}}</small></div>
+<br>    
 
 {% include 'include/user/user_menu.html' %}
+<br>
+<div class="flex">
+    <a href="/user/bill_in_verify/" class="btn btn-primary">Bill In</a>
+    <a href="/user/transfer/" class="btn btn-primary">Transfer</a>
+</div>
 
 
 {% endblock content %}

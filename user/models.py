@@ -180,7 +180,7 @@ class Cash_transfer(models.Model):
             to_user_cash = User_cash.objects.filter(user_id=self.to_user.user_id).last()
             to_user_cash.amount += float(self.amount)
             to_user_cash.save()
-            
+             
 class Cash_transfer_to_bank(models.Model):
     from_user=models.ForeignKey(User,on_delete=models.CASCADE, null=True)    
     to_bank = models.ForeignKey(Bank_account,on_delete=models.CASCADE, null=True) 
@@ -200,7 +200,7 @@ class Cash_transfer_to_bank(models.Model):
             to_user_bank = Bank_account.objects.filter(id=self.to_bank_id).last()
             to_user_bank.amount += float(self.amount)
             to_user_bank.save()
-            
+             
 class Phonepe_transfer(models.Model):
     from_user = models.ForeignKey(User,on_delete=models.CASCADE, null=True)    
     from_phonepe_id = models.CharField(max_length=100)   

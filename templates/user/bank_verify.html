@@ -1,0 +1,17 @@
+{% extends 'home/base.html' %}
+{% block head %}
+{% endblock head %}
+{% block content %}
+<div> <small> {{user.user_type.name}} = Welcome - {{user.name}}</small></div>
+<br>    
+
+{% include 'include/user/user_menu.html' %}
+<br>
+<div class="flex">
+   <a href="/user/bill_in_verify_bank/" class="btn btn-primary">Bill In</a>
+   <a href="/user/transfer_cash_to_bank/" class="btn btn-primary">Cash to Bank</a>
+   <a href="/user/transfer_bank/" class="btn btn-primary">Bank to Bank</a>
+</div>
+
+
+{% endblock content %}

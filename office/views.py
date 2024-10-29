@@ -14,7 +14,7 @@ def office_home(request):
         return render(request, 'office/office_home.html', context)
     else:
         return redirect('login')
-    
+     
 def user(request):
     if request.session.has_key('office_mobile'):
         office_mobile = request.session['office_mobile']

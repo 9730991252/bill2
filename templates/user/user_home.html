@@ -2,10 +2,22 @@
 {% block head %}
 {% endblock head %}
 {% block content %}
+{% load office_tag %}
 <div> <small> {{user.user_type.name}} = Welcome - {{user.name}}</small></div>
 <br>
 
 {% include 'include/user/user_menu.html' %}
+{% if user.user_type.name == 'ADMIN' %}
 
+<div style="display:  grid;grid-template-columns: repeat(auto-fit, 350px);gap: 10px;justify-content: center;">
+    {% total_amount %}
+    {% total_pending_amount %}
+</div>
+<div style="display:  grid;grid-template-columns: repeat(auto-fit, 350px);gap: 10px;">
+    {% total_cash_amount %}
+    {% total_phonepe_amount %}
+    {% total_bank_amount %}
+</div>
 
+{% endif %}
 {% endblock content %}

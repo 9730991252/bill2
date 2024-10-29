@@ -110,4 +110,4 @@ def from_phonepe_transfer(id):
 def from_bank_transfer(id):
     if id:
         bank = Bank_account.objects.filter(id=id).first()
-        return str(bank.number)[10:15]
+        return str(bank.number)

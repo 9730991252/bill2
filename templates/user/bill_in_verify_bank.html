@@ -1,0 +1,79 @@
+{% extends 'home/base.html' %}
+{% block head %}
+{% endblock head %}
+{% block content %}
+<div> <small> {{user.user_type.name}} = Welcome - {{user.name}}</small></div>
+<br>    
+
+{% include 'include/user/user_menu.html' %}
+<br>
+<div class="flex">
+    <a href="/user/bill_in_verify_bank/" class="btn btn-warning">Bill In</a>
+    <a href="/user/transfer_cash_to_bank/" class="btn btn-primary">Cash to Bank</a>
+    <a href="/user/transfer_bank/" class="btn btn-primary">Bank to Bank</a>
+</div>
+
+ 
+
+<style>
+   *{
+       margin: 0;
+       padding: 0;
+       box-sizing: border-box;
+   }
+   .bill_in_card_box{
+       border: 1px solid black;
+       border-radius: 10px;
+       width: 90%;
+       text-align: center;
+       padding: 10px;
+       margin: 0 auto;
+       margin-bottom: 10px;
+   }
+   .from_user{
+    background-color: rgb(226, 255, 255);
+    padding: 10px;
+    margin-bottom: 10px;
+   }
+   .to_user{
+    background-color: rgb(255, 236, 252);
+    padding: 10px;
+   }
+</style>
+<div class="text-center">
+<h6>Bill In Recived Verify</h6>
+</div>
+
+{% for t in bank_transition %}
+
+<div class="bill_in_card_box">
+   <div class="from_user">From -  {{t.bill.user.user_type.name}} - {{t.bill.user.name}}</div>
+   <div class="to_user">To - {{t.bank.bank_name}} - {{t.bank.number}}</div>
+   <div class="bill_name">bil Name - {{t.bill.bill_number}}</div>
+   <div class="date">{{t.added_date}}</div>
+   <div class="date">Amount - <strong>{{t.amount}}</strong></div>
+   <div id="phonepe_status_box{{t.id}}">{% if t.self_verify_status == 0 %}<button onclick="bill_in_verify_bank('{{t.id}}')" type="submit" class="btn btn-danger mt-2">Verify</button>{% else %}<h6 class="text-success">Verifide</h6>{% endif %}</div>
+
+</div>
+
+{% endfor %}
+
+
+<script>
+    function bill_in_verify_bank(bank_transition_id){
+        $.ajax({
+        type:'GET',
+        url:'{% url "bill_in_verify_bank" %}',
+        data:{
+            bank_transition_id:bank_transition_id,
+        },
+        success: function(data){
+            if(data.status == 1){
+                document.getElementById('phonepe_status_box'+bank_transition_id).innerHTML=`<h6 class="text-success">Verifide</h6>`
+            }
+            }
+        })
+    }
+</script>
+
+{% endblock content %}

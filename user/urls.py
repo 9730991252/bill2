@@ -7,4 +7,10 @@ urlpatterns = [
     path('out/', views.out, name='out'),
     path('transfer/', views.transfer, name='transfer'),
     path('phonepe_verify/', views.phonepe_verify, name='phonepe_verify'),
+    path('bill_in_verify/', views.bill_in_verify, name='bill_in_verify'),
+    path('transfer_in_verify/', views.transfer_in_verify, name='transfer_in_verify'),
+    path('bank_verify/', views.bank_verify, name='bank_verify'),
+    path('bill_in_verify_bank/', views.bill_in_verify_bank, name='bill_in_verify_bank'),
+    path('transfer_cash_to_bank/', views.transfer_cash_to_bank, name='transfer_cash_to_bank'),
+    path('transfer_bank/', views.transfer_bank, name='transfer_bank'),
 ]
