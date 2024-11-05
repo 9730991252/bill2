@@ -49,7 +49,7 @@
             {% endfor %}
         </select>    
     </div>
-        <input type="text" class="form-control" oninput="check_enter_amount()" name="amount" id="enter_amount" placeholder="Amount" required>
+        <input type="text" class="form-control" oninput="check_enter_amount(),check_zero('enter_amount')" name="amount" id="enter_amount" placeholder="Amount" required>
 </div>
       <button type="submit" class="btn btn-danger" name="User_transfer_phonepe">Phonepe Transfer</button>
 
@@ -72,3 +72,4 @@
         }
         }
 </script>
+{% include 'include/check_zero.html' %}

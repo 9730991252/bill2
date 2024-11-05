@@ -49,12 +49,13 @@
             {% endfor %}
         </select>    
     </div>
-        <input type="text" class="form-control" oninput="check_enter_amount()" name="amount" id="enter_amount" placeholder="Amount" required>
+        <input type="text" class="form-control" oninput="check_zero('enter_amount'),check_enter_amount()" name="amount" id="enter_amount" placeholder="Amount" required>
 </div>
       <button type="submit" class="btn btn-danger" name="User_transfer_bank">Phonepe Transfer</button>
 
 
 
+{% include 'include/check_zero.html' %}
 <script>
     function selected(){
         var e = document.getElementById("user_phonepe");

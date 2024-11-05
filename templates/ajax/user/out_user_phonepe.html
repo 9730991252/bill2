@@ -12,26 +12,31 @@
         </select>
     </div>
     <div class="mb-3">
-        <input type="number" oninput="check_enter_amount()" id="enter_amount" name="amount" class="form-control" placeholder="Enter Amount Hear" required>
+        <input type="number" oninput="check_enter_amount(),check_zero('enter_amount')" id="enter_amount" name="amount" class="form-control" placeholder="Enter Amount Hear" required>
       </div>
       <button type="submit" class="btn btn-danger" name="User_out_phonepe">Phonepe Out</button>
 
 
 
 <script>
+    amount1 = ''
     function selected(){
         var e = document.getElementById("user_phonepe");
         amount1 = e.options[e.selectedIndex].id;
-        console.log(amount)
     }
 
     function check_enter_amount(){
+        if (amount1){
+            amount=document.getElementById('enter_amount').value;
 
-        amount=document.getElementById('enter_amount').value;
+            if(parseInt(amount1) <= parseInt(amount)){
 
-        if(parseInt(amount1) <= parseInt(amount)){
-
-        document.getElementById('enter_amount').value = '';
+            document.getElementById('enter_amount').value = '';
+            }
+        }
+        else{
+            alert('please Select user phonepe first')
         }
         }
 </script>
+{% include 'include/check_zero.html' %}

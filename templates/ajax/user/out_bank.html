@@ -12,7 +12,7 @@
         </select>
     </div>
     <div class="mb-3">
-        <input type="number" oninput="check_enter_amount()" id="enter_amount" name="amount" class="form-control" placeholder="Enter Amount Hear" required>
+        <input type="number" oninput="check_enter_amount(),check_zero('enter_amount')" id="enter_amount" name="amount" class="form-control" placeholder="Enter Amount Hear" required>
       </div>
       <button type="submit" class="btn btn-danger" name="User_out_bank">bank Out</button>
 
@@ -35,3 +35,4 @@
         }
         }
 </script>
+{% include 'include/check_zero.html' %}

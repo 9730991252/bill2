@@ -5,7 +5,7 @@
 </div>
     <div class="mb-5">
         <label for="disabledTextInput" class="form-label">Available Cash  Rs. {{cash}}</label>
-        <input type="number" oninput="check_enter_amount()" id="enter_amount" name="amount" class="form-control" placeholder="Enter Hear Amount" required>
+        <input type="number" oninput="check_enter_amount(),check_zero('enter_amount')" id="enter_amount" name="amount" class="form-control" placeholder="Enter Hear Amount" required>
       </div>
       <button type="submit" class="btn btn-danger" name="User_out_cash">Out Cash</button>
 
@@ -25,3 +25,4 @@ if(parseInt(cash) <= parseInt(amount)){
 }
 }
 </script>
+{% include 'include/check_zero.html' %}

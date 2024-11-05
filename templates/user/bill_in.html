@@ -53,7 +53,7 @@
         <div>
             <div popover id="my-popover-cash" style="margin: auto;border: 1px solid black;padding: 10px;">
                 <form method="POST">{% csrf_token %} 
-                    <input type="text" oninput="check_amount()" name="amount" placeholder="Cash amount" class="form-control" id="input_amount">
+                    <input type="number" oninput="check_amount(),check_zero('input_amount')" name="amount" placeholder="Cash amount" class="form-control" id="input_amount">
                     <button type="submit" name="Cash_add" class="btn btn-primary mt-2">Cash In</button>
                 </form>
             </div>
@@ -70,7 +70,7 @@
                       </select>
                 </div>                
                 <div class="mb-3">
-                    <input type="text" placeholder="Phonpe amount" name="amount" class="form-control" >
+                    <input type="number" id="phonepe_input_amount" oninput="check_zero('phonepe_input_amount')" placeholder="Phonpe amount" name="amount" class="form-control" >
                 </div>
                 <button type="submit" name="phonepe_add" class="btn btn-primary mt-2">Cash In</button>
                 </form>
@@ -86,7 +86,7 @@
                       </select>
                 </div>                
                 <div class="mb-3">
-                    <input type="text" placeholder="Bank amount" name="amount" class="form-control" >
+                    <input type="number" placeholder="Bank amount" id="bank_input_amount" oninput="check_zero('bank_input_amount')" name="amount" class="form-control" >
                 </div>
                 <button type="submit" name="Bank_add" class="btn btn-primary mt-2">Cash In</button>
                 </form>
@@ -136,4 +136,5 @@
         }
     }
 </script>
+{% include 'include/check_zero.html' %}
 {% endblock content %}

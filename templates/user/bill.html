@@ -9,10 +9,10 @@
 
 <br>
 <div class="container">
-
-
+  
+  
   <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
     Add bill
   </button>
   <div class="m-3">
@@ -29,13 +29,13 @@
         </div>
         <div class="modal-body">
           <form method="POST">{% csrf_token %}
-              <div class="mb-3">
-                  <label for="bill_number">Bill Number</label>
-                  <input type="text" class="form-control" name="bill_number" id="bill_number" placeholder="Bill Number" required>
-              </div>
             <div class="mb-3">
-                <label for="amount">Amount</label>
-                <input type="text" class="form-control" name="amount" id="amount" placeholder="Amount" required>
+              <label for="bill_number">Bill Number</label>
+              <input type="text" class="form-control" name="bill_number" id="bill_number" placeholder="Bill Number" required>
+            </div>
+            <div class="mb-3">
+              <label for="amount">Amount</label>
+              <input type="number" class="form-control" name="amount" id="amount" oninput="check_zero('amount')" placeholder="Amount" required>
             </div>
             <button type="submit" class="btn btn-primary" name="Add_bill">Add</button>
           </form>
@@ -46,31 +46,31 @@
       </div>
     </div>
   </div>
-<div id="search_bill_result" >
+  <div id="search_bill_result" >
 
 <!-- bill -->
-  <style>
-    .bill_box{
-      position: relative;
-        border: 1px solid black;
-        width: 95%;
-        margin: 0 auto;
-        display: flex;
-        flex-direction: column;
-        text-align: center;
-        margin-top: 10px;
-        padding: 10px;
-    }
-    .amount_box{
-        display: flex;
-        justify-content: space-between;
-    }
-    .amount{
-        background-color: green;
-        color: white;
-        padding: 5px;
-        border-radius: 10px;
-      }
+<style>
+  .bill_box{
+    position: relative;
+    border: 1px solid black;
+    width: 95%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    margin-top: 10px;
+    padding: 10px;
+  }
+  .amount_box{
+    display: flex;
+    justify-content: space-between;
+  }
+  .amount{
+    background-color: green;
+    color: white;
+    padding: 5px;
+    border-radius: 10px;
+  }
       .pending{
         background-color:  red;
         color: white;
@@ -93,18 +93,18 @@
       </style>
     {% for b in bill %}
     <a href="/user/bill_in/{{b.id}}">
-    <div class="bill_box">
-      <div class="id">{{b.id}}</div>
+      <div class="bill_box">
+        <div class="id">{{b.id}}</div>
         <div class="bill_number">Bill Name <b> {{b.bill_number}}</b></div>
         <div class="amount_box">
-            <div class="amount">Amount - <b>{{b.amount}}</b></div>
-            <div class="pending">Pending - <b>{{b.pending_amount}}</b></div>
+          <div class="amount">Amount - <b>{{b.amount}}</b></div>
+          <div class="pending">Pending - <b>{{b.pending_amount}}</b></div>
         </div>
         <div class="date mt-2">{{b.added_date}}</div>
-    </div>
+      </div>
     </a>
     {% endfor %}
-
+    
     
     <style>
       .cumplated_bill_box{
@@ -153,21 +153,22 @@
     
   </div>
   
-  </div>
-  <script>
-    function search_bill(){
-      bill_input = document.getElementById('bill_input').value;
-      $.ajax({
-        type:'GET',
-        url:'{% url "search_bill" %}',
-        data:{
-          bill_input:bill_input,
-        },
-        success: function(data){
-          $("#search_bill_result").html(data.t)
-        }
-      })
-    }
+</div>
+<script>
+  function search_bill(){
+    bill_input = document.getElementById('bill_input').value;
+    $.ajax({
+      type:'GET',
+      url:'{% url "search_bill" %}',
+      data:{
+        bill_input:bill_input,
+      },
+      success: function(data){
+        $("#search_bill_result").html(data.t)
+      }
+    })
+  }
   </script>
+  {% include 'include/check_zero.html' %}
   {% endblock content %}
   
