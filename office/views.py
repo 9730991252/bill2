@@ -24,7 +24,7 @@ def user(request):
             mobile = request.POST.get('mobile')
             pin = request.POST.get('pin')
             user_type = request.POST.get('user_type')
-            if User.objects.filter(mobile=mobile).exists() or User.objects.filter(user_type_id=user_type).exists():
+            if User.objects.filter(mobile=mobile).exists() and User.objects.filter(user_type_id=user_type).exists():
                 pass
             else:
                 User(
