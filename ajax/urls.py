@@ -14,4 +14,5 @@ urlpatterns = [
     path('bill_in_verify_bank', views.bill_in_verify_bank, name='bill_in_verify_bank'),
     path('transfer_verify_cash_to_bank', views.transfer_verify_cash_to_bank, name='transfer_verify_cash_to_bank'),
     path('transfer_verify_bank', views.transfer_verify_bank, name='transfer_verify_bank'),
+    path('edit_bill_name', views.edit_bill_name, name='edit_bill_name'),
 ]

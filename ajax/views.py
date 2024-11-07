@@ -146,3 +146,12 @@ def transfer_verify_bank(request):
             bank_transfer.to_verify_status = 1
             bank_transfer.save()
     return JsonResponse({'status': 1})
+
+def edit_bill_name(request):
+    if request.method == 'GET':
+        id = request.GET['id']
+        edit_bill_name_input = request.GET['edit_bill_name_input']
+        bill= Bill.objects.filter(id=id).first()
+        bill.bill_number = edit_bill_name_input
+        bill.save()
+    return JsonResponse({'edit_bill_name_input': edit_bill_name_input})

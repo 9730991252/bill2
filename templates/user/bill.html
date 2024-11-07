@@ -92,10 +92,10 @@
       }
       </style>
     {% for b in bill %}
-    <a href="/user/bill_in/{{b.id}}">
-      <div class="bill_box">
-        <div class="id">{{b.id}}</div>
-        <div class="bill_number">Bill Name <b> {{b.bill_number}}</b></div>
+    <div class="bill_box">
+      <div class="id">{{b.id}}</div>
+      <div class="bill_number"><div>Bill Name <b> <input type="text" value="{{b.bill_number}}" id="edit_bill_name_input{{b.id}}"> &nbsp;&nbsp; <i onclick="edit_bill_name('{{b.id}}')" class="fa-solid fa-check"></i> </b></div></div>
+      <a href="/user/bill_in/{{b.id}}">
         <div class="amount_box">
           <div class="amount">Amount - <b>{{b.amount}}</b></div>
           <div class="pending">Pending - <b>{{b.pending_amount}}</b></div>
@@ -155,6 +155,20 @@
   
 </div>
 <script>
+  function edit_bill_name(id){
+    edit_bill_name_input = document.getElementById('edit_bill_name_input'+id).value;
+    $.ajax({
+      type:'GET',
+      url:'{% url "edit_bill_name" %}',
+      data:{
+        id:id,
+        edit_bill_name_input:edit_bill_name_input,
+      },
+      success: function(data){
+        $("#edit_bill_name_input"+id).value(data.edit_bill_name_input)
+      }
+    })
+  }
   function search_bill(){
     bill_input = document.getElementById('bill_input').value;
     $.ajax({
