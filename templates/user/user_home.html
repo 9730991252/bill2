@@ -7,6 +7,7 @@
 <br>
 
 {% include 'include/user/user_menu.html' %}
+{% if user.user_type.name == 'ADMIN' %}{% include 'include/user/admin_menu.html' %}{% endif %}
 {% if user.user_type.name == 'ADMIN' %}
 
 <div style="display:  grid;grid-template-columns: repeat(auto-fit, 350px);gap: 10px;justify-content: center;">

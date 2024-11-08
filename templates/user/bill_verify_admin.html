@@ -1,0 +1,135 @@
+{% extends 'home/base.html' %}
+{% block head %}
+{% endblock head %}
+{% block content %}
+{% load user_tag %}
+{% load office_tag %}
+<div> <small> {{user.user_type.name}} = Welcome - {{user.name}}</small></div>
+<br>
+
+{% include 'include/user/user_menu.html' %}
+{% if user.user_type.name == 'ADMIN' %}{% include 'include/user/admin_menu.html' %}{% endif %}
+
+
+<style>
+.user_box{
+    border: 1px solid black;
+    padding: 5px;
+    border-radius: 10px;
+    text-align: center;
+    width: 300px;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+</style>
+<div class="container" style="display: grid;grid-template-columns: repeat(auto-fit, 300px);gap: 10px;">
+
+    {% for u in all_users %}
+    <form method="POST" {% if u.user_type.name == 'ADMIN' %} style="display: none;"{% endif %}>{% csrf_token %}
+        <button type="submit" {% if selected_user.id == u.id %} style="background-color: rgb(242, 183, 32);" {% endif %} name="user_bill" class="user_box btn btn-transparent">
+            <input type="hidden" value="{{u.id}}" name="id">
+            <div>{{u.user_type.name}} - {{u.name}}</div>
+        </button>
+    </form>
+    {% endfor %}
+</div>
+
+<style>
+    .bill_box{
+      position: relative;
+      border: 1px solid black;
+      width: 95%;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      margin-top: 10px;
+      padding: 10px;
+    }
+    .amount_box{
+      display: flex;
+      justify-content: space-between;
+    }
+    .amount{
+      background-color: green;
+      color: white;
+      padding: 5px;
+      border-radius: 10px;
+    }
+        .pending{
+          background-color:  red;
+          color: white;
+          padding: 5px;
+          border-radius: 10px;
+        }
+        a{
+          color: black;
+          text-decoration: none;
+        }
+        .id{
+          position: absolute;
+          left: 0;
+          top: 0;
+          padding: 5px;
+          border-right: 1px solid black;
+          border-bottom: 1px solid black;
+          font-weight: 700;
+        }
+        .flex{
+          display: flex;
+          justify-content: center;
+        }
+        </style>
+{% if user_bill %}
+        <div class="container flex" style="justify-content: space-between;font-weight: 600;">
+          <div>Total Bill -  {{bill_total_count}}</div>
+          <div class="text-success">Verifyd Bill -  {{verifyd_bill}}</div>
+          <div class="text-danger">Pending Bill -  {{pending_bill}}</div>
+        </div>
+{% for b in user_bill %}
+    <div class="bill_box" {% if b.admin_verify_status == 1 and b.pending_amount_status == 0 %} style="border-color: red;" {% endif %} >
+        <div>{{b.user.user_type.name}} - {{b.user.name}}</div>
+        <div class="id">{{b.id}}</div>
+        <div class="bill_number"><div>Bill Name <b> {{b.bill_number}}</b></div></div>
+          <div class="amount_box">
+            <div class="amount">Amount - <b>{{b.amount}}</b></div>
+            {% if b.pending_amount_status == 0 %}
+                {% if b.admin_verify_status == 1 %}
+                  {% check_verify_pending_phone_and_bank b.id as n %}
+                  {% if n == 0 %}
+                    <div id="verified_box{{b.id}}">{% if b.admin_verify_status == 1 %} <button class="btn btn-primary" onclick="admin_bill_verify('{{b.id}}')">Admin Verify</button> {% else %} <h6 class="text-success">Verified</h6> {% endif %}</div>
+                  {% else %}
+                    <p class="text-danger"><b>Pement Verify pending</b></p>
+                  {% endif %}
+
+                {% else %}
+                    <div id="verified_box{{b.id}}">{% if b.admin_verify_status == 1 %} <button class="btn btn-primary" onclick="admin_bill_verify('{{b.id}}')">Admin Verify</button> {% else %} <h6 class="text-success">Verified</h6> {% endif %}</div>
+                {% endif %}
+            {% else %}
+                <div class="flex" style="gap: 10px;">
+                  <div>Pending From {% calculate_dayes b.date %} Days</div>
+                  <div class="pending">Pending - <b>{{b.pending_amount}}</b></div>
+                </div>
+            {% endif %}
+          </div>
+          <div class="date mt-2">{{b.added_date}}</div>
+        </div>
+{% endfor %}
+{% endif %}
+
+<script>
+function admin_bill_verify(bill_id){
+    $.ajax({
+        type:'GET',
+        url:'{% url "admin_bill_verify" %}',
+        data:{
+            bill_id:bill_id,
+        },
+        success: function(data){
+            document.getElementById('verified_box'+bill_id).innerHTML=`<h6 class="text-success">Verified</h6>`
+            }
+        })
+}
+</script>
+{% endblock content %}

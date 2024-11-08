@@ -6,7 +6,7 @@
 <br>
 
 {% include 'include/user/user_menu.html' %}
-
+{% if user.user_type.name == 'ADMIN' %}{% include 'include/user/admin_menu.html' %}{% endif %}
 <style>
     .bill_box{
         border: 1px solid black;

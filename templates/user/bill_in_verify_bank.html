@@ -6,6 +6,7 @@
 <br>    
 
 {% include 'include/user/user_menu.html' %}
+{% if user.user_type.name == 'ADMIN' %}{% include 'include/user/admin_menu.html' %}{% endif %}
 <br>
 <div class="flex">
     <a href="/user/bill_in_verify_bank/" class="btn btn-warning">Bill In</a>

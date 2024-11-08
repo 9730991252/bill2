@@ -6,7 +6,7 @@
 <br>
 
 {% include 'include/user/user_menu.html' %}
-
+{% if user.user_type.name == 'ADMIN' %}{% include 'include/user/admin_menu.html' %}{% endif %}
 <br>
 <div class="container">
   

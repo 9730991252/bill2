@@ -155,3 +155,12 @@ def edit_bill_name(request):
         bill.bill_number = edit_bill_name_input
         bill.save()
     return JsonResponse({'edit_bill_name_input': edit_bill_name_input})
+
+def admin_bill_verify(request):
+    if request.method == 'GET':
+        bill_id = request.GET['bill_id']
+        bill = Bill.objects.filter(id=bill_id).first()
+        bill.admin_verify_status = 0
+        bill.save()
+
+    return JsonResponse({'edit_bill_name_input': 'edit_bill_name_input'})

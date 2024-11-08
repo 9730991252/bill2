@@ -1,0 +1,12 @@
+<style>
+    .but{
+        width: 100%;
+        display: flex;
+        overflow: scroll;
+        gap: 10px;
+    }
+</style>
+
+<div class="but">
+    <a  href="/user/bill_verify_admin/" class="my-1 {% if request.path == '/user/bill_verify_admin/' %}btn btn-warning{% else %}btn btn-primary{% endif %}">Bill Verify</a>
+</div>
