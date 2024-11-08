@@ -1,0 +1,14 @@
+<div style="display: grid;grid-template-columns: 2fr 1fr">
+    {% for p in phonepe %}
+        <div>{{p.phonepe.user.name}} - {{p.phonepe.mobile}} </div>
+        <div>Rs.{{p.amount}}</div>
+        {% endfor %}
+    {% for b in bank %}
+        <div>{{b.bank.user.name}} - {{b.bank.number}}</div>
+        <div>Rs.{{b.amount}}</div>
+       {% endfor %}
+    {% for c in cash %}
+        <div>{{c.user.user_type.name}} - {{c.user.name}}</div>
+        <div>Rs.{{c.amount}}</div>
+    {% endfor %}
+</div>

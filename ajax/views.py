@@ -92,8 +92,9 @@ def transfer_user_bank(request):
 def search_bill(request):
     if request.method == 'GET':
         bill_input = request.GET['bill_input']
+        user_type_id = request.GET['user_type_id']
         if bill_input:
-            bill= Bill.objects.filter(bill_number__icontains=bill_input)
+            bill= Bill.objects.filter(bill_number__icontains=bill_input,user_type_id=user_type_id)
         if bill_input == '':
             bill= ''
         context={

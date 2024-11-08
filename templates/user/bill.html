@@ -176,6 +176,7 @@
       url:'{% url "search_bill" %}',
       data:{
         bill_input:bill_input,
+        user_type_id:'{{user.user_type.id}}'
       },
       success: function(data){
         $("#search_bill_result").html(data.t)

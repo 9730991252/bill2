@@ -56,6 +56,7 @@
       color: white;
       padding: 5px;
       border-radius: 10px;
+      height: fit-content;
     }
         .pending{
           background-color:  red;
@@ -98,13 +99,14 @@
                 {% if b.admin_verify_status == 1 %}
                   {% check_verify_pending_phone_and_bank b.id as n %}
                   {% if n == 0 %}
-                    <div id="verified_box{{b.id}}">{% if b.admin_verify_status == 1 %} <button class="btn btn-primary" onclick="admin_bill_verify('{{b.id}}')">Admin Verify</button> {% else %} <h6 class="text-success">Verified</h6> {% endif %}</div>
+                    {% bill_received_detail b.id %}
+                    <div id="verified_box{{b.id}}">{% if b.admin_verify_status == 1 %} <button class="btn btn-primary" onclick="admin_bill_verify('{{b.id}}')">Admin Verify</button> {% else %}{% endif %}</div>
                   {% else %}
                     <p class="text-danger"><b>Pement Verify pending</b></p>
                   {% endif %}
 
                 {% else %}
-                    <div id="verified_box{{b.id}}">{% if b.admin_verify_status == 1 %} <button class="btn btn-primary" onclick="admin_bill_verify('{{b.id}}')">Admin Verify</button> {% else %} <h6 class="text-success">Verified</h6> {% endif %}</div>
+                    <div id="verified_box{{b.id}}">{% if b.admin_verify_status == 1 %}{% else %} <h6 class="text-success">Verified</h6> {% endif %}</div>
                 {% endif %}
             {% else %}
                 <div class="flex" style="gap: 10px;">

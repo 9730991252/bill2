@@ -30,5 +30,17 @@ def calculate_dayes(main_date):
         d = date.today() - main_date
     return d.days
 
+@register.inclusion_tag('inclusion_tag/office/bill_received_detail.html')
+def bill_received_detail(id):
+    if id:
+        phonepe = Phonepe_transition.objects.filter(bill_id=id)
+        bank = Bank_transition.objects.filter(bill_id=id)
+        cash = Cash_amount.objects.filter(bill_id=id)
+    return{
+        'phonepe':phonepe,
+        'bank':bank,
+        'cash':cash,
+    }
+
 
     
