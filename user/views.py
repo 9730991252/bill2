@@ -179,7 +179,8 @@ def transfer(request):
         bank= Bank_account.objects.filter(user_id=user.id)
         if 'User_transfer_cash'in request.POST:
             transfer_to_user_id = request.POST.get('transfer_to_user_id')
-            amount = request.POST.get('amount')
+            amount = request.POST.get('enter_amount')
+            print(amount)
             Cash_transfer(
                 from_user_id = user.id,
                 to_user_id   = transfer_to_user_id,
