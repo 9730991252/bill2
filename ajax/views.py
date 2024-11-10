@@ -165,3 +165,4 @@ def admin_bill_verify(request):
         bill.save()
 
     return JsonResponse({'edit_bill_name_input': 'edit_bill_name_input'})
+

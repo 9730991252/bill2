@@ -54,7 +54,7 @@
             <div popover id="my-popover-cash" style="margin: auto;border: 1px solid black;padding: 10px;">
                 <form method="POST">{% csrf_token %} 
                     <input type="number" oninput="check_amount(),check_zero('input_amount')" name="amount" placeholder="Cash amount" class="form-control" id="input_amount">
-                    <button type="submit" name="Cash_add" class="btn btn-primary mt-2">Cash In</button>
+                    <button type="submit" name="Cash_add" id="Cash_add" class="btn btn-primary mt-2" >Cash In</button>
                 </form>
             </div>
         </div>
@@ -129,6 +129,7 @@
     </div>
 <script>
     amount = '{{bill.pending_amount}}'
+
     function check_amount(){
         input_amount = document.getElementById('input_amount').value;
         if ( parseInt(amount) < parseInt(input_amount)){

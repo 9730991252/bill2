@@ -1,6 +1,7 @@
 from django.shortcuts import redirect, render
 from .models import *
 from django.contrib import messages 
+import time
 
 def user_home(request):
     if request.session.has_key('user_mobile'):
@@ -61,6 +62,7 @@ def bill_in(request, id):
                 return redirect(f'/user/bill_in/{id}')
             else:
                 messages.warning(request,"पेंडिंग अमाऊंट पेक्षा कॅश अमाऊंट जास्त आहे . ")
+            time.sleep(3)
         if 'phonepe_add'in request.POST:
             bill = Bill.objects.filter(id=id).first()
             amount = request.POST.get('amount')
@@ -77,6 +79,7 @@ def bill_in(request, id):
                 return redirect(f'/user/bill_in/{id}')
             else:
                 messages.warning(request,"पेंडिंग अमाऊंट पेक्षा कॅश अमाऊंट जास्त आहे . ")
+            time.sleep(3)
         if 'Bank_add'in request.POST:
             bill = Bill.objects.filter(id=id).first()
             amount = request.POST.get('amount')
@@ -93,11 +96,13 @@ def bill_in(request, id):
                 return redirect(f'/user/bill_in/{id}')
             else:
                 messages.warning(request,"पेंडिंग अमाऊंट पेक्षा कॅश अमाऊंट जास्त आहे . ")
+            time.sleep(3)
         if 'Complete_bill'in request.POST:
             b=Bill.objects.filter(id=id).first()
             b.pending_amount_status=0
             b.save()
             return redirect('/user/bill/') 
+            time.sleep(3)
         context={
             'user':user,
             'bill':Bill.objects.filter(id=id).first(),
