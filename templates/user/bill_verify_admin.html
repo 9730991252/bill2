@@ -102,6 +102,7 @@
                     {% bill_received_detail b.id %}
                     <div id="verified_box{{b.id}}">{% if b.admin_verify_status == 1 %} <button class="btn btn-primary" onclick="admin_bill_verify('{{b.id}}')">Admin Verify</button> {% else %}{% endif %}</div>
                   {% else %}
+                    {% pement_verify_pending b.id %}
                     <p class="text-danger"><b>Pement Verify pending</b></p>
                   {% endif %}
 

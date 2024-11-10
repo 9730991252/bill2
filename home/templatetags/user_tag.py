@@ -41,6 +41,18 @@ def bill_received_detail(id):
         'bank':bank,
         'cash':cash,
     }
+    
+@register.inclusion_tag('inclusion_tag/office/bill_received_detail.html')
+def pement_verify_pending(id):
+    if id:
+        phonepe = Phonepe_transition.objects.filter(bill_id=id,self_verify_status=0)
+        bank = Bank_transition.objects.filter(bill_id=id,self_verify_status=0)
+        cash = []
+    return{
+        'phonepe':phonepe,
+        'bank':bank,
+        'cash':cash,
+    }
 
 
     
