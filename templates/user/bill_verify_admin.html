@@ -111,7 +111,7 @@
                 {% endif %}
             {% else %}
                 <div class="flex" style="gap: 10px;">
-                  <div>Pending From {% calculate_dayes b.date %} Days</div>
+                  <div>Pending From <strong class="text-danger">{% calculate_dayes b.date %}</strong> Days</div>
                   <div class="pending">Pending - <b>{{b.pending_amount}}</b></div>
                 </div>
             {% endif %}
