@@ -169,6 +169,7 @@ class Cash_transfer(models.Model):
     office_verify_status = models.IntegerField(default=0)
     admin_verify_status = models.IntegerField(default=0)
     to_verify_status = models.IntegerField(default=0)
+    cash_remark = models.CharField(max_length=200,null=True)
     date = models.DateField(auto_now_add=True)
     added_date = models.DateTimeField(auto_now_add=True)
     def save(self, *args,**kwargs):

@@ -185,12 +185,14 @@ def transfer(request):
         if 'User_transfer_cash'in request.POST:
             transfer_to_user_id = request.POST.get('transfer_to_user_id')
             amount = request.POST.get('enter_amount')
-            print(amount)
+            cash_remark = request.POST.get('cash_remark')
             Cash_transfer(
                 from_user_id = user.id,
                 to_user_id   = transfer_to_user_id,
                 amount       = amount, 
+                cash_remark  = cash_remark
             ).save()
+            time.sleep(1)
             return redirect('transfer')
         if 'User_transfer_cash_to_bank'in request.POST:
             transfer_to_user_bank_id = request.POST.get('transfer_to_user_bank_id')

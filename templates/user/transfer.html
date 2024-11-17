@@ -135,64 +135,90 @@
     <table class="table table-striped  table-bordered table-hover">
         <thead>
           <tr>
-            <th scope="col">From</th>
+            <th scope="col">From Cash</th>
             <th scope="col">To</th>
             <th scope="col">Amount</th>
+            <th scope="col">Remark</th>
             <th scope="col">Date</th>
           </tr>
         </thead>
         <tbody>
             {% for c in cash_amount %}
                 <tr>
-                    <td>{{c.user.name}}</td>
+                    <td>{{user.name}}</td>
                     <td>{{c.to_user.user.name}}</td>
                     <td>Rs.{{c.amount}}</td>
-                    <td>{{c.added_date}}</td>
-                </tr>
-                {% endfor %}
-                <tr>
-                    <td><hr></td>
-                    <td><hr></td>
-                    <td><hr></td>
-                    <td><hr></td>
-                </tr>
-                {% for c in phonepe_transition %}
-                <tr>
-                    <td>{% from_phonepe_transfer c.from_phonepe_id %}</td>
-                    <td>{{c.to_phonepe.user.name }}... - {{c.to_phonepe.mobile}} </td>
-                    <td>Rs.{{c.amount}} </td>
-                    <td>{{c.added_date}}</td>
-                </tr>
-                {% endfor %}
-                <tr>
-                    <td><hr></td>
-                    <td><hr></td>
-                    <td><hr></td>
-                    <td><hr></td>
-                </tr>
-                {% for c in bank_transition %}
-                <tr>
-                    <td>{% from_bank_transfer c.from_bank_id  %}</td>
-                    <td>{{c.to_bank.bank_name}}. - {{c.to_bank.number}} </td>
-                    <td> Rs.{{c.amount}}</td>
-                    <td>{{c.added_date}}</td>
-                </tr>
-            {% endfor %}
-                <tr>
-                    <td><hr></td>
-                    <td><hr></td>
-                    <td><hr></td>
-                    <td><hr></td>
-                </tr>
-                {% for c in cash_transfer_to_bank %}
-                <tr>
-                    <td>{{c.from_user.name}}</td>
-                    <td>{{c.to_bank.bank_name}}. - {{c.to_bank.number}} </td>
-                    <td> Rs.{{c.amount}}</td>
+                    <td>{{c.cash_remark}}</td>
                     <td>{{c.added_date}}</td>
                 </tr>
             {% endfor %}
         </tbody>
+
+    </table>
+
+    <table class="table table-striped  table-bordered table-hover">
+        <thead>
+          <tr>
+            <th scope="col">From Phonepe</th>
+            <th scope="col">To</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Date</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for c in phonepe_transition %}
+            <tr>
+                <td>{% from_phonepe_transfer c.from_phonepe_id %}</td>
+                <td>{{c.to_phonepe.user.name }}... - {{c.to_phonepe.mobile}} </td>
+                <td>Rs.{{c.amount}} </td>
+                <td>{{c.added_date}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <table class="table table-striped  table-bordered table-hover">
+        <thead>
+          <tr>
+            <th scope="col">From Bank</th>
+            <th scope="col">To</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Date</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for c in bank_transition %}
+            <tr>
+                <td>{% from_bank_transfer c.from_bank_id  %}</td>
+                <td>{{c.to_bank.bank_name}}. - {{c.to_bank.number}} </td>
+                <td> Rs.{{c.amount}}</td>
+                <td>{{c.added_date}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+
+    <table class="table table-striped  table-bordered table-hover">
+        <thead>
+          <tr>
+            <th scope="col">From Cash</th>
+            <th scope="col">To Bank</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Date</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for c in cash_transfer_to_bank %}
+            <tr>
+                <td>{{c.from_user.name}}</td>
+                <td>{{c.to_bank.bank_name}}. - {{c.to_bank.number}} </td>
+                <td> Rs.{{c.amount}}</td>
+                <td>{{c.added_date}}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+
       </table>
 </div>
 

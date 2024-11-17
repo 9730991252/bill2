@@ -49,7 +49,7 @@
 <div class="bill_in_card_box">
    <div class="from_user">From -  {{t.bill.user.user_type.name}} - {{t.bill.user.name}}</div>
    <div class="to_user">To -  {{t.phonepe.mobile}}</div>
-   <div class="bill_name">{{t.bill.bill_number}}</div>
+   <div class="bill_name"><strong>{{t.bill.bill_number}}</strong></div>
    <div class="date">{{t.added_date}}</div>
    <div class="date">Amount - <strong>{{t.amount}}</strong></div>
    <div id="phonepe_status_box{{t.id}}">{% if t.self_verify_status == 0 %}<button onclick="bill_in_verify_phonepe('{{t.id}}')" type="submit" class="btn btn-danger mt-2">Verify</button>{% else %}<h6 class="text-success">Verifide</h6>{% endif %}</div>
